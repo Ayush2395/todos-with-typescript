@@ -7,6 +7,8 @@ const Navbar = () => {
     const user = localStorage.removeItem("user");
     dispatch({ type: "logout", payload: user });
   };
+  console.log(user);
+  
   return (
     <div>
       <nav className="navbar navbar-expand-lg bg-light position-sticky top-0 w-100">
@@ -29,6 +31,9 @@ const Navbar = () => {
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
               {user && (
                 <>
+                  <li className="nav-item">
+                    <p className="text-purple nav-link">{user.email}</p>
+                  </li>
                   <li className="nav-item">
                     <NavLink className="nav-link" aria-current="page" to="/">
                       Home

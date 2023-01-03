@@ -63,6 +63,11 @@ $custom-theme: (
   "purple-25": tint-color($purple, 25%),
   "purple-35": tint-color($purple, 35%),
   "purple-50": tint-color($purple, 50%),
+  "teal": $teal,
+  "teal-15": tint-color($teal, 15%),
+  "teal-25": tint-color($teal, 25%),
+  "teal-35": tint-color($teal, 35%),
+  "teal-50": tint-color($teal, 50%),
 );
 
 $theme-colors: map-merge(
@@ -76,5 +81,4 @@ $theme-colors: map-merge(
 
 .section {
   min-height: 100vh;
-  padding: 2rem 8rem;
 }
