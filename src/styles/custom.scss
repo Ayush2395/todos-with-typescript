@@ -1,0 +1,80 @@
+@function tint-color($color, $weight) {
+  @return mix(white, $color, $weight);
+}
+
+@import "~bootstrap/scss/functions";
+
+$white: #fff;
+$gray-100: #f8f9fa;
+$gray-200: #e9ecef;
+$gray-300: #dee2e6;
+$gray-400: #ced4da;
+$gray-500: #adb5bd;
+$gray-600: #6c757d;
+$gray-700: #495057;
+$gray-800: #343a40;
+$gray-900: #212529;
+$black: #000;
+
+$blue: #0d6efd;
+$indigo: #6610f2;
+$purple: #6f42c1;
+$pink: #d63384;
+$red: #dc3545;
+$orange: #fd7e14;
+$yellow: #ffc107;
+$green: #198754;
+$teal: #20c997;
+$cyan: #0dcaf0;
+
+$primary: $blue;
+$secondary: $gray-600;
+$success: $green;
+$info: $cyan;
+$warning: $yellow;
+$danger: $red;
+$light: $gray-100;
+$dark: $gray-900;
+
+$theme-colors: (
+  "primary": $primary,
+  "secondary": $secondary,
+  "success": $success,
+  "info": $info,
+  "warning": $warning,
+  "danger": $danger,
+  "light": $light,
+  "dark": $dark,
+);
+
+$custom-theme: (
+  "blue": $blue,
+  "blue-15": tint-color($primary, 15%),
+  "blue-25": tint-color($primary, 25%),
+  "blue-35": tint-color($primary, 35%),
+  "blue-50": tint-color($primary, 50%),
+  "pink": $pink,
+  "pink-15": tint-color($pink, 15%),
+  "pink-25": tint-color($pink, 25%),
+  "pink-35": tint-color($pink, 35%),
+  "pink-50": tint-color($pink, 50%),
+  "purple": $purple,
+  "purple-15": tint-color($purple, 15%),
+  "purple-25": tint-color($purple, 25%),
+  "purple-35": tint-color($purple, 35%),
+  "purple-50": tint-color($purple, 50%),
+);
+
+$theme-colors: map-merge(
+  $map1: $theme-colors,
+  $map2: $custom-theme,
+);
+
+@import "~bootstrap/scss/bootstrap";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+
+.section {
+  min-height: 100vh;
+  padding: 2rem 8rem;
+}
