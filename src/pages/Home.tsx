@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import TodosCard from "../components/TodosCard";
+import { useAuth } from "../context/AuthContext";
 
 type HomeProps = {
   task: string;
@@ -11,10 +12,43 @@ type HomeProps = {
 const Home = () => {
   const [todos, setTodos] = useState<HomeProps[]>();
   const [error, setError] = useState<{ error: boolean; msg: string }>();
+  const { user } = useAuth();
+  const [tasks, setTasks] = useState<string>("");
+  const [status, setStatus] = useState<string>("");
+
+  const handleTaskSubmission = async (e: any) => {
+    e.preventDefault();
+
+    if (!tasks) return setError({ error: true, msg: "Write your task first" });
+
+    const response = await fetch("http://localhost:8000/api/todos/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${user.accessToken}`,
+      },
+      body: JSON.stringify({ task: tasks, status }),
+    });
+
+    const json = await response.json();
+
+    if (!response.ok) {
+      console.log(json.error);
+    }
+    if (response.ok) {
+      console.log(json);
+    }
+  };
 
   useEffect(() => {
     const handleTask = async () => {
-      const res = await fetch("http://localhost:8000/api/todos/");
+      const res = await fetch("http://localhost:8000/api/todos/", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${user.accessToken}`,
+        },
+      });
       const json = await res.json();
       if (!res.ok) {
         setError({ error: true, msg: json.error });
@@ -24,7 +58,7 @@ const Home = () => {
       }
     };
     handleTask();
-  }, [todos]);
+  }, [todos, user]);
 
   return (
     <div className="section container">
@@ -50,12 +84,14 @@ const Home = () => {
         </div>
         <div className="card h-75 col-12 col-sm-12 col-md-4 mt-3 position-sticky top-0">
           <div className="card-body">
-            <form>
+            <form onSubmit={handleTaskSubmission}>
               <div className="form-group mb-3">
                 <label htmlFor="task" className="form-label">
                   Task
                 </label>
                 <input
+                  value={tasks}
+                  onChange={(e) => setTasks(e.target.value)}
                   type="text"
                   name="task"
                   id="task"
@@ -67,6 +103,8 @@ const Home = () => {
                   Status
                 </label>
                 <input
+                  value={status}
+                  onChange={(e) => setStatus(e.target.value)}
                   type="text"
                   name="status"
                   id="status"

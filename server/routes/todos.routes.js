@@ -1,10 +1,14 @@
+const authProtection = require("../middleware/authMiddleware");
 const todos = require("../model/todo.model");
 
 const todoRoutes = require("express").Router();
 
+todoRoutes.use(authProtection);
+
 todoRoutes.get("/", async (req, res) => {
+  const userId = req.user.id;
   try {
-    const todo = await todos.find();
+    const todo = await todos.find({ userId }).sort({ createdAt: -1 });
     res.status(200).json(todo);
   } catch (error) {
     res.status(404).json({ error: error.message });
@@ -23,8 +27,9 @@ todoRoutes.get("/:id", async (req, res) => {
 
 todoRoutes.post("/", async (req, res) => {
   const { task, status } = req.body;
+  const userId = req.user.id;
   try {
-    const todo = await todos.create({ task: task, status: status });
+    const todo = await todos.create({ task: task, status: status, userId });
     res.status(200).json(todo);
   } catch (error) {
     res.status(400).json({ error: error.message });

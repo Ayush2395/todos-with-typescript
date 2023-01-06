@@ -11,6 +11,10 @@ const todosModel = new schema(
       type: String,
       required: true,
     },
+    userId:{
+      type:String,
+      required: true
+    }
   },
   { timestamps: true }
 );
