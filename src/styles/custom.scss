@@ -82,3 +82,7 @@ $theme-colors: map-merge(
 .section {
   min-height: 100vh;
 }
+
+.navbar {
+  z-index: 2;
+}
